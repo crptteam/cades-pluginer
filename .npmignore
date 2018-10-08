@@ -1,0 +1,4 @@
+.storybook
+.storybook/**/*
+*.log
+node_modules
