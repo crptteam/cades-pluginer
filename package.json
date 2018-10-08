@@ -1,6 +1,6 @@
 {
   "name": "@crpt/cades-pluginer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Cades plugin helper",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -22,10 +22,8 @@
     "test:coverage": "NODE_ENV=test jest --coverage",
     "test:watch": "NODE_ENV=test jest --watch"
   },
-  "dependencies": {
-  },
-  "peerDependencies": {
-  },
+  "dependencies": {},
+  "peerDependencies": {},
   "devDependencies": {
     "babel-jest": "^23.0.1",
     "enzyme": "^3.3.0",
