@@ -1,5 +1,5 @@
 {
-  "name": "@crpt/cades-pluginer",
+  "name": "@crpt/cades-utils",
   "version": "0.0.2",
   "description": "Cades plugin helper",
   "main": "lib/index.js",
