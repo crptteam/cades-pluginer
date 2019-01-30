@@ -1,23 +1,23 @@
-# cades-pluginer
+# cades-Utils
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-CADES Pluginer already contains cadesplugin_api.js in own bundle.
+CADES Utils already contains cadesplugin_api.js in own bundle.
 
 ## Usage
 
 ```javascript
 
-import { CadesPluginer as anyName } from "@crpt/cades-pluginer";
+import { CadesUtils as anyName } from "@crpt/cades-utils";
 //or
-import CadesPluginer from "@crpt/cades-pluginer";
+import CadesUtils from "@crpt/cades-utils";
 //usually you will need 2 methods
 
-CadesPluginer.getFinalCertsArray().then(certs => {
+CadesUtils.getFinalCertsArray().then(certs => {
   console.log("certs", certs);
-  CadesPluginer.signMessage("lalala", certs[0].certificate).then(signed =>
+  CadesUtils.signMessage("lalala", certs[0].certificate).then(signed =>
     console.log("signed", signed);
   );
 });

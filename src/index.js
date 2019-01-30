@@ -1,6 +1,6 @@
 import "./cadesplugin_api";
 
-class CadesPluginer {
+class CadesUtils {
   static CADESCOM_CADES_BES = 1;
   static CAPICOM_CURRENT_USER_STORE = 2;
   static CAPICOM_MY_STORE = "My";
@@ -35,7 +35,7 @@ class CadesPluginer {
       if (!!window.cadesplugin.CreateObjectAsync) {
         return store.Certificates.then(obj => {
           return obj.Find(
-            CadesPluginer.CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME,
+            CadesUtils.CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME,
             ""
           );
         }).then(certs => {
@@ -44,7 +44,7 @@ class CadesPluginer {
       } else {
         return resolve(
           store.Certificates.Find(
-            CadesPluginer.CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME,
+            CadesUtils.CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME,
             ""
           )
         );
@@ -63,18 +63,18 @@ class CadesPluginer {
   }
 
   static getCompanyNameFromSubject(subj) {
-    return CadesPluginer.getByTagFromSubject(subj, "O");
+    return CadesUtils.getByTagFromSubject(subj, "O");
   }
 
   static getNameFromSubject(subj) {
     let name = "";
 
-    name = `${CadesPluginer.getByTagFromSubject(subj, "SN")} `;
-    name += CadesPluginer.getByTagFromSubject(subj, "G");
+    name = `${CadesUtils.getByTagFromSubject(subj, "SN")} `;
+    name += CadesUtils.getByTagFromSubject(subj, "G");
     name = name.trim();
 
     if (!name.length) {
-      name = CadesPluginer.getByTagFromSubject(subj, "CN");
+      name = CadesUtils.getByTagFromSubject(subj, "CN");
     }
 
     return name;
@@ -153,24 +153,24 @@ class CadesPluginer {
 
   static getAsyncCertArray() {
     return new Promise((resolve, reject) => {
-      CadesPluginer.init()
+      CadesUtils.init()
         .then(() => {
-          return CadesPluginer.createObject(CadesPluginer.STORE_OBJECT_NAME);
+          return CadesUtils.createObject(CadesUtils.STORE_OBJECT_NAME);
         })
         .then(store => {
-          return CadesPluginer.openStore(
+          return CadesUtils.openStore(
             store,
-            CadesPluginer.CAPICOM_CURRENT_USER_STORE,
-            CadesPluginer.CAPICOM_MY_STORE,
-            CadesPluginer.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED
+            CadesUtils.CAPICOM_CURRENT_USER_STORE,
+            CadesUtils.CAPICOM_MY_STORE,
+            CadesUtils.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED
           );
         })
 
         .then(store => {
-          CadesPluginer.getCertsObjFromOpenStore(store)
+          CadesUtils.getCertsObjFromOpenStore(store)
             .then(certs =>
-              CadesPluginer.getCountFromCerts(certs).then(count =>
-                CadesPluginer.getCertsByCount(certs, count)
+              CadesUtils.getCountFromCerts(certs).then(count =>
+                CadesUtils.getCertsByCount(certs, count)
               )
             )
             .then(certificates => {
@@ -187,13 +187,13 @@ class CadesPluginer {
     return new Promise((resolve, reject) => {
       const oStore = window.cadesplugin.CreateObject("CAdESCOM.Store");
       oStore.Open(
-        CadesPluginer.CAPICOM_CURRENT_USER_STORE,
-        CadesPluginer.CAPICOM_MY_STORE,
-        CadesPluginer.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED
+        CadesUtils.CAPICOM_CURRENT_USER_STORE,
+        CadesUtils.CAPICOM_MY_STORE,
+        CadesUtils.CAPICOM_STORE_OPEN_MAXIMUM_ALLOWED
       );
 
       const oCertificates = oStore.Certificates.Find(
-        CadesPluginer.CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME,
+        CadesUtils.CAPICOM_CERTIFICATE_FIND_SUBJECT_NAME,
         ""
       );
 
@@ -224,9 +224,9 @@ class CadesPluginer {
 
   static getFinalCertsArray() {
     if (!!window.cadesplugin.CreateObjectAsync) {
-      return CadesPluginer.getAsyncCertArray();
+      return CadesUtils.getAsyncCertArray();
     } else {
-      return CadesPluginer.getSyncCertArray();
+      return CadesUtils.getSyncCertArray();
     }
   }
 
@@ -248,7 +248,7 @@ class CadesPluginer {
                 .then(() => {
                   return oSignedData.SignCades(
                     oSigner,
-                    CadesPluginer.CADESCOM_CADES_BES,
+                    CadesUtils.CADESCOM_CADES_BES,
                     detached
                   );
                 })
@@ -301,9 +301,9 @@ class CadesPluginer {
 
   static signMessage(message, cert, detached = false) {
     if (!!window.cadesplugin.CreateObjectAsync) {
-      return CadesPluginer.signMessageAsync(message, cert, detached);
+      return CadesUtils.signMessageAsync(message, cert, detached);
     } else {
-      return CadesPluginer.signMessageSync(message, cert, detached);
+      return CadesUtils.signMessageSync(message, cert, detached);
     }
   }
 
@@ -336,5 +336,5 @@ class CadesPluginer {
   }
 }
 
-export default CadesPluginer;
-export { CadesPluginer };
+export default CadesUtils;
+export { CadesUtils };
