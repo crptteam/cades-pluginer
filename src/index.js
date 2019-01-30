@@ -102,24 +102,35 @@ class CadesPluginer {
           const fromPromises = [];
           const toPromises = [];
           const serialPromises = [];
+          const validPromises = [];
+          const thumbprintPromises = [];
 
           certificates.forEach(c => {
             namePromises.push(c.SubjectName);
             fromPromises.push(c.ValidFromDate);
             toPromises.push(c.ValidToDate);
             serialPromises.push(c.SerialNumber);
+            validPromises.push(c.IsValid());
+            thumbprintPromises.push(c.Thumbprint)
           });
 
           Promise.all(
-            [namePromises, fromPromises, toPromises, serialPromises].map(c =>
+            [namePromises, fromPromises, toPromises, serialPromises, validPromises, thumbprintPromises].map(c =>
               Promise.all(c)
             )
           ).then(names => {
-            resolve(
-              certificates.map((c, i) => {
-                return { certificate: c, info: names.map(info => info[i]) };
+            const isValid = [];
+              names[4].forEach(n => {
+                isValid.push(n.Result)
+              });
+              Promise.all(isValid).then(results => {
+                names[4] = results;
+                  resolve(
+                      certificates.map((c, i) => {
+                          return { certificate: c, info: names.map(info => info[i]) };
+                      })
+                  );
               })
-            );
           });
         });
       } else {
