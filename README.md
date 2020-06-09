@@ -18,7 +18,7 @@ import CadesUtils from "@crpt/cades-utils";
 CadesUtils.getFinalCertsArray().then(certs => {
   console.log("certs", certs);
   CadesUtils.signMessage("lalala", certs[0].certificate).then(signed =>
-    console.log("signed", signed);
+    console.log("signed", signed)
   );
 });
 
